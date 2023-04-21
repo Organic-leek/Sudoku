@@ -28,7 +28,7 @@ def Sudoku_locate():
     x2, y2 = pyautogui.center(xy2)
     im = pyautogui.screenshot()
     im = im.crop([x1, y1 + 5, x2, y2])
-    hight = (y2 - y1) / 9
+    height = (y2 - y1) / 9
     wide = (x2 - x1) / 9
     im = im.convert('L')
     table = []
@@ -38,21 +38,23 @@ def Sudoku_locate():
         else:
             table.append(1)
     im = im.point(table, '1')
+    im.show()
     sudoku = [['.'] * 9 for _ in range(9)]
     for i in range(9):
         for j in range(9):
-            om = im.crop([wide * j + 1, hight * i, wide * (j + 1) - 5, hight * (i + 1) - 6])
+            om = im.crop([wide * j + 2, height * i+2, wide * (j + 1) - 5, height * (i + 1) - 6])
             string = pytesseract.image_to_string(om, config='--psm 6', lang="eng")
 
             if string:
                 sudoku[i][j] = string[0]
-    return sudoku, x1, y1, hight, wide
+    return sudoku, x1, y1, height, wide
 
 
 while True:
     time.sleep(0.5)
     try:
-        board, x1, y1, hight, wide = Sudoku_locate()
+        board, x1, y1, height, wide = Sudoku_locate()
+        print(board)
         break
     except Exception as e:
         print(e)
@@ -80,5 +82,5 @@ for i in range(9):
             print('不可解')
             break
 for i, j in valid:
-    pyautogui.click([x1 + wide * (j + 0.5), y1 + hight * (i + 0.5)])
+    pyautogui.click([x1 + wide * (j + 0.5), y1 + height * (i + 0.5)])
     pyautogui.typewrite(board[i][j])
