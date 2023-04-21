@@ -79,7 +79,7 @@ for i in range(9):
     for j in range(9):
         a = board[i][j]
         if a == '.':
-            print('不可解')
+            print('该数独不可解')
             break
 for i, j in valid:
     pyautogui.click([x1 + wide * (j + 0.5), y1 + height * (i + 0.5)])
