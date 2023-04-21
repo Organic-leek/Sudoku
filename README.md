@@ -1,3 +1,3 @@
 # Sudoku
 Sudoku
-hello world
+need download tesseract_ocr
