@@ -22,8 +22,8 @@ def dfs(n):
 
 
 def Sudoku_locate():
-    xy1 = pyautogui.locateOnScreen(r"img1.png", confidence=0.95)
-    xy2 = pyautogui.locateOnScreen(r"img2.png", confidence=0.95)
+    xy1 = pyautogui.locateOnScreen(r"img1.png", confidence=0.9)
+    xy2 = pyautogui.locateOnScreen(r"img2.png", confidence=0.9)
     x1, y1 = pyautogui.center(xy1)
     x2, y2 = pyautogui.center(xy2)
     im = pyautogui.screenshot()
@@ -38,12 +38,11 @@ def Sudoku_locate():
         else:
             table.append(1)
     im = im.point(table, '1')
-    im.show()
     sudoku = [['.'] * 9 for _ in range(9)]
     for i in range(9):
         for j in range(9):
             om = im.crop([wide * j + 2, height * i+2, wide * (j + 1) - 5, height * (i + 1) - 6])
-            string = pytesseract.image_to_string(om, config='--psm 6', lang="eng")
+            string = pytesseract.image_to_string(om, config='--psm 6')
 
             if string:
                 sudoku[i][j] = string[0]
@@ -54,7 +53,8 @@ while True:
     time.sleep(0.5)
     try:
         board, x1, y1, height, wide = Sudoku_locate()
-        print(board)
+        for i in range(9):
+            print(board[i])
         break
     except Exception as e:
         print(e)
